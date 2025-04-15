@@ -1,36 +1,68 @@
 # NativeCase
 
-#### Description
-本示例主要介绍如何实现ArkTS与Native C++层交互开发。主要包含以下两个主题：Native侧回调ArkTS函数和Native子线程与UI主线程通信。Native侧回调ArkTS函数分别使用同步任务Callback、异步任务Callback以及异步任务Promise三种方式实现；Native子线程与UI主线程通信分别使用线程安全函数和LibUV异步库两种方式实现。
+### Overview
 
-#### Software Architecture
-Software architecture description
+This sample demonstrates how to develop interactions between ArkTS and the native C++ layer. It covers two scenarios: invoking ArkTS functions from the native side and communication between the native child thread and the UI main thread. The invocation of ArkTS function from the native side is implemented through synchronous or asynchronous tasks. The communication between the native child thread and the UI main thread is implemented using thread-safe functions or the libuv asynchronous library.
 
-#### Installation
+### Preview
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+![](screenshots/device/native_case_en.gif)
 
-#### Instructions
+### How to Use
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+On the home page, touch the respective button to access scenario-specific pages. Each of these pages contains an information display section and a button. When you touch the button, an interface is invoked to display related information in the information display section.
 
-#### Contribution
+### Project Structure
 
-1.  Fork the repository
-2.  Create Feat_xxx branch
-3.  Commit your code
-4.  Create Pull Request
+```
+├──entry/src/main/cpp                   // C++ code area
+│  ├──AsyncCallback                     // Asynchronous callback
+│  │  ├──AsyncCallback.cpp                
+│  │  └──AsyncCallback.h  
+│  ├──AsyncPromise                      // Asynchronous promise
+│  │  ├──AsyncPromise.cpp                
+│  │  └──AsyncPromise.h  
+│  ├──LibUvCase                         // Communication via libuv
+│  │  ├──LibUvCase.cpp                
+│  │  └──LibUvCase.h  
+│  ├──SyncCallback                      // Synchronous callback
+│  │  ├──SyncCallback.cpp                
+│  │  └──SyncCallback.h  
+│  ├──ThreadSafeCase                    // Communication using thread-safe functions
+│  │  ├──ThreadSafeCase.cpp                
+│  │  └──ThreadSafeCase.h  
+│  ├──types
+│  │  └──libentry                       // Exported C++ APIs
+│  │     ├──Index.d.ts                
+│  │     └──oh-package.json5           
+│  ├──CMakeLists.txt                    // CMake file 
+│  └──napi_init.cpp                     // Native API mappings
+├──entry/src/main/ets                   // ArkTS code area                  
+│  ├──entryability        
+│  │  └──EntryAbility.ets                                
+│  ├──entrybackupability 
+│  │  └──EntryBackupAbility.ets                           
+│  ├──pages     
+│  │  ├──Index.ets                      // Home page 
+│  │  ├──SubMainThreadCom.ets           // Invocation of ArkTS functions on the native side 
+│  │  └──SyncAndAsyncWork.ets           // Communication between the native child thread and the UI main thread           
+│  └──view    
+│     └──TitleComponent.ets             // Title component        
+└──entry/src/main/resources             // Resource files
+```
 
+### Permissions
 
-#### Gitee Feature
+**N/A**
 
-1.  You can use Readme\_XXX.md to support different languages, such as Readme\_en.md, Readme\_zh.md
-2.  Gitee blog [blog.gitee.com](https://blog.gitee.com)
-3.  Explore open source project [https://gitee.com/explore](https://gitee.com/explore)
-4.  The most valuable open source project [GVP](https://gitee.com/gvp)
-5.  The manual of Gitee [https://gitee.com/help](https://gitee.com/help)
-6.  The most popular members  [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+### References
+
+**N/A**
+
+### Constraints
+
+1. The sample is only supported on Huawei phones with standard systems.
+2. The HarmonyOS version must be HarmonyOS 5.0.0 Release or later.
+3. The DevEco Studio version must be DevEco Studio 5.0.0 Release or later.
+4. The HarmonyOS SDK version must be HarmonyOS 5.0.0 Release SDK or later.
+
