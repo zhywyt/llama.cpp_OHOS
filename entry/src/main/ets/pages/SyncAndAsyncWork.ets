@@ -20,7 +20,7 @@ import { TitleComponent } from '../view/TitleComponent'
 @Component
 export struct SyncAndAsyncWork {
   @Consume('pageInfos') pageInfos: NavPathStack;
-  private resMgr: resourceManager.ResourceManager = getContext().resourceManager;
+  private resMgr: resourceManager.ResourceManager = this.getUIContext().getHostContext()!.resourceManager;
   @State message: ResourceStr = $r('app.string.read_text_desc');
 
   build() {

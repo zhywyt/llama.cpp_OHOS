@@ -58,7 +58,7 @@ export struct SubMainThreadCom {
           .width('100%')
           .onClick(() => {
             testNapi.threadSafeCaseFun(this.work);
-            promptAction.showToast({
+            this.getUIContext().getPromptAction().showToast({
               message: $r('app.string.thread_com_toast'),
               duration: 2000
             })
@@ -68,7 +68,7 @@ export struct SubMainThreadCom {
           .margin({ top: 12 })
           .onClick(() => {
             testNapi.libUvCaseFun(this.work);
-            promptAction.showToast({
+            this.getUIContext().getPromptAction().showToast({
               message: $r('app.string.lib_uv_toast'),
               duration: 2000
             })
