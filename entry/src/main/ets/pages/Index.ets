@@ -15,6 +15,7 @@
 
 import { SubMainThreadCom } from './SubMainThreadCom';
 import { SyncAndAsyncWork } from './SyncAndAsyncWork';
+import { LlamaChatPage } from './LlamaChatPage';
 
 @Entry
 @Component
@@ -27,6 +28,8 @@ struct Index {
       SyncAndAsyncWork();
     } else if (name === 'SubMainThreadCom') {
       SubMainThreadCom();
+    } else if (name === 'LlamaChatPage') {
+      LlamaChatPage();
     } else {
       Index();
     }
@@ -61,6 +64,15 @@ struct Index {
           .margin({ top: 12 })
           .onClick(() => {
             this.pageInfos.pushPath({ name: 'SubMainThreadCom' });
+          })
+
+        Button('LlamaCpp Chat Interface')
+          .width('100%')
+          .fontWeight(500)
+          .fontSize(16)
+          .margin({ top: 12 })
+          .onClick(() => {
+            this.pageInfos.pushPath({ name: 'LlamaChatPage' });
           })
       }
       .width('100%')
