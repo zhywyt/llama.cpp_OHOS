@@ -26,3 +26,20 @@ export const threadSafeCaseFun: (work: object) => void;
 export const libUvCaseFun: (work: object) => void;
 
 export const destroy: () => void;
+
+// LlamaCpp functions
+export const loadModel: (modelPath: string, contextSize?: number, threads?: number) => boolean;
+
+export const unloadModel: () => void;
+
+export const isModelLoaded: () => boolean;
+
+export const generateText: (prompt: string, maxTokens?: number, temperature?: number, topP?: number) => string;
+
+export const chatCompletion: (userInput: string, systemPrompt?: string) => string;
+
+export const clearChatHistory: () => void;
+
+export const getModelInfo: () => string;
+
+export const getLastError: () => string;

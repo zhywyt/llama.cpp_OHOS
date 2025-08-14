@@ -19,6 +19,7 @@
 #include "./AsyncPromise/AsyncPromise.h"
 #include "./ThreadSafeCase/ThreadSafeCase.h"
 #include "./LibUvCase/LibUvCase.h"
+#include "./LlamaCppInterface/LlamaCppNapi.h"
 extern int g_value;
 
 static napi_value Destroy(napi_env env, napi_callback_info info) {
@@ -37,6 +38,16 @@ static napi_value Init(napi_env env, napi_value exports) {
          nullptr},
         {"libUvCaseFun", nullptr, LibUvCase::LibUvCaseFun, nullptr, nullptr, nullptr, napi_default, nullptr},
         {"destroy", nullptr, Destroy, nullptr, nullptr, nullptr, napi_default, nullptr},
+        
+        // LlamaCpp functions
+        {"loadModel", nullptr, LlamaCppNapi::LoadModel, nullptr, nullptr, nullptr, napi_default, nullptr},
+        {"unloadModel", nullptr, LlamaCppNapi::UnloadModel, nullptr, nullptr, nullptr, napi_default, nullptr},
+        {"isModelLoaded", nullptr, LlamaCppNapi::IsModelLoaded, nullptr, nullptr, nullptr, napi_default, nullptr},
+        {"generateText", nullptr, LlamaCppNapi::GenerateText, nullptr, nullptr, nullptr, napi_default, nullptr},
+        {"chatCompletion", nullptr, LlamaCppNapi::ChatCompletion, nullptr, nullptr, nullptr, napi_default, nullptr},
+        {"clearChatHistory", nullptr, LlamaCppNapi::ClearChatHistory, nullptr, nullptr, nullptr, napi_default, nullptr},
+        {"getModelInfo", nullptr, LlamaCppNapi::GetModelInfo, nullptr, nullptr, nullptr, napi_default, nullptr},
+        {"getLastError", nullptr, LlamaCppNapi::GetLastError, nullptr, nullptr, nullptr, napi_default, nullptr},
     };
     napi_define_properties(env, exports, sizeof(desc) / sizeof(desc[0]), desc);
     return exports;
