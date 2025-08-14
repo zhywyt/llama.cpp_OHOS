@@ -144,9 +144,9 @@ namespace LlamaCppNapi {
     }
 
     napi_value GetModelInfo(napi_env env, napi_callback_info info) {
-        std::string info = getInstance()->getModelInfo();
+        std::string modelInfo = getInstance()->getModelInfo();
         napi_value result;
-        napi_create_string_utf8(env, info.c_str(), info.length(), &result);
+        napi_create_string_utf8(env, modelInfo.c_str(), modelInfo.length(), &result);
         return result;
     }
 
