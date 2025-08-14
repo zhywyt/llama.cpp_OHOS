@@ -1,0 +1,26 @@
+# Build artifacts
+test_build/
+build/
+bin/
+lib/
+*.o
+*.so
+*.a
+
+# HarmonyOS specific
+.hvigor/
+
+# IDE files
+.idea/
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+/tmp/
+*.tmp
+*.bak
+*.swp
+*~
