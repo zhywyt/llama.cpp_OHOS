@@ -36,9 +36,20 @@ export struct LlamaChatPage {
   }
 
   checkModelStatus() {
-    this.modelLoaded = testNapi.isModelLoaded();
-    if (this.modelLoaded) {
-      this.modelInfo = testNapi.getModelInfo();
+    try {
+      if (testNapi && typeof testNapi.isModelLoaded === 'function') {
+        this.modelLoaded = testNapi.isModelLoaded();
+        if (this.modelLoaded && typeof testNapi.getModelInfo === 'function') {
+          this.modelInfo = testNapi.getModelInfo();
+        }
+      } else {
+        this.modelLoaded = false;
+        this.lastError = 'LlamaCpp native module not available';
+      }
+    } catch (error) {
+      this.modelLoaded = false;
+      this.lastError = `Error checking model status: ${error}`;
+      console.error('checkModelStatus error:', error);
     }
   }
 
@@ -48,27 +59,50 @@ export struct LlamaChatPage {
       return;
     }
 
-    console.log('Loading model from:', this.modelPath);
-    const success = testNapi.loadModel(this.modelPath, 2048, 4);
-    
-    if (success) {
-      this.modelLoaded = true;
-      this.modelInfo = testNapi.getModelInfo();
-      this.lastError = '';
-      console.log('Model loaded successfully');
-    } else {
-      this.lastError = testNapi.getLastError();
-      console.error('Failed to load model:', this.lastError);
+    if (!testNapi || typeof testNapi.loadModel !== 'function') {
+      this.lastError = 'LlamaCpp native module not available';
+      return;
+    }
+
+    try {
+      console.log('Loading model from:', this.modelPath);
+      const success = testNapi.loadModel(this.modelPath, 2048, 4);
+      
+      if (success) {
+        this.modelLoaded = true;
+        if (typeof testNapi.getModelInfo === 'function') {
+          this.modelInfo = testNapi.getModelInfo();
+        }
+        this.lastError = '';
+        console.log('Model loaded successfully');
+      } else {
+        if (typeof testNapi.getLastError === 'function') {
+          this.lastError = testNapi.getLastError();
+        } else {
+          this.lastError = 'Failed to load model';
+        }
+        console.error('Failed to load model:', this.lastError);
+      }
+    } catch (error) {
+      this.lastError = `Error loading model: ${error}`;
+      console.error('loadModel error:', error);
     }
   }
 
   unloadModel() {
-    testNapi.unloadModel();
-    this.modelLoaded = false;
-    this.modelInfo = '';
-    this.chatMessages = [];
-    this.lastError = '';
-    console.log('Model unloaded');
+    try {
+      if (testNapi && typeof testNapi.unloadModel === 'function') {
+        testNapi.unloadModel();
+      }
+      this.modelLoaded = false;
+      this.modelInfo = '';
+      this.chatMessages = [];
+      this.lastError = '';
+      console.log('Model unloaded');
+    } catch (error) {
+      this.lastError = `Error unloading model: ${error}`;
+      console.error('unloadModel error:', error);
+    }
   }
 
   sendMessage() {
@@ -78,6 +112,11 @@ export struct LlamaChatPage {
     }
 
     if (this.userInput.trim() === '') {
+      return;
+    }
+
+    if (!testNapi || typeof testNapi.chatCompletion !== 'function') {
+      this.lastError = 'LlamaCpp native module not available';
       return;
     }
 
@@ -94,7 +133,11 @@ export struct LlamaChatPage {
           this.chatMessages.push({ isUser: false, message: response.trim() });
           this.lastError = '';
         } else {
-          this.lastError = testNapi.getLastError() || 'No response generated';
+          if (typeof testNapi.getLastError === 'function') {
+            this.lastError = testNapi.getLastError() || 'No response generated';
+          } else {
+            this.lastError = 'No response generated';
+          }
         }
       } catch (error) {
         this.lastError = `Error: ${error}`;
@@ -105,9 +148,16 @@ export struct LlamaChatPage {
   }
 
   clearChat() {
-    testNapi.clearChatHistory();
-    this.chatMessages = [];
-    this.lastError = '';
+    try {
+      if (testNapi && typeof testNapi.clearChatHistory === 'function') {
+        testNapi.clearChatHistory();
+      }
+      this.chatMessages = [];
+      this.lastError = '';
+    } catch (error) {
+      this.lastError = `Error clearing chat: ${error}`;
+      console.error('clearChat error:', error);
+    }
   }
 
   build() {
