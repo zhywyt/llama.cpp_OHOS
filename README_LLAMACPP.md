@@ -123,15 +123,17 @@ if (success) {
 
 ## Installation
 
-1. Clone with submodules:
+1. Clone with submodules (**IMPORTANT**):
    ```bash
    git clone --recursive <repository-url>
    ```
 
-2. If already cloned, initialize submodules:
+2. If already cloned, initialize submodules (**REQUIRED**):
    ```bash
    git submodule update --init --recursive
    ```
+   
+   **Note**: This step is essential. Without it, you will get "LlamaCpp native module not available" errors.
 
 3. Build using DevEco Studio or HarmonyOS build tools
 
@@ -139,20 +141,26 @@ if (success) {
 
 ### Common Issues
 
-1. **Model Loading Fails**
+1. **"LlamaCpp native module not available" Error**
+   - **Cause**: The llama.cpp submodule is not initialized
+   - **Solution**: Run `git submodule update --init --recursive` in the project root
+   - **Verification**: Check that `third_party/llama.cpp/` contains files (not empty)
+   - This is the most common issue when cloning the repository
+
+2. **Model Loading Fails**
    - Check model file path and format
    - Ensure sufficient memory
    - Verify model file integrity
 
-2. **Generation is Slow**
+3. **Generation is Slow**
    - Reduce context size
    - Use smaller model
    - Adjust thread count
 
-3. **Build Errors**
+4. **Build Errors**
    - Ensure HarmonyOS SDK is properly installed
    - Check CMake version compatibility
-   - Verify submodule initialization
+   - Verify submodule initialization (see issue #1 above)
 
 ### Error Checking
 
